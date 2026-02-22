@@ -54,21 +54,98 @@
  *   // red and blue objects are UNCHANGED
  */
 export function mixColors(color1, color2) {
-  // Your code here
+  if(!color1 || !color2 || typeof(color1)!=='object' || typeof(color2)!=='object')
+  {
+    return null;
+  }
+
+  let ans ={};
+  for(const key in color1)
+  {
+    if(typeof color1[key]==='string')
+    {
+      ans[key]=`${color1.name}-${color2.name}`
+    }else{
+      ans[key] =Math.round((color1[key]+color2[key])/2);
+    }
+  }
+  return ans;
+
 }
 
 export function adjustBrightness(color, factor) {
-  // Your code here
+  if(!color || typeof(color)!=='object'||factor === null || factor === undefined || typeof(factor)!=='number' ||Number.isNaN(factor))
+  {
+    return null;
+  }
+
+  const clamp =(a,b,c)=>{
+    if(a<b)
+    {
+      return b;
+    }else if(a>c)
+    {
+      return c;
+    }else{
+      return a;
+    }
+  }
+
+  const ans = {};
+  ans.name= color.name;
+  for(const key in color)
+  {
+     if(typeof color[key]==='string')
+    {
+      continue;
+    }
+    ans[key] = Math.round(clamp(color[key]*factor,0,255));
+  }
+  return ans;
 }
 
 export function addToPalette(palette, color) {
-  // Your code here
+
+  if(!color || !typeof color ==='object')
+  {
+    return structuredClone(palette)
+  }
+  if(!palette || !Array.isArray(palette) || !palette.length)
+  {
+    return [color];
+  }
+  const ans = structuredClone(palette);
+  ans.push(color);
+  return ans;
 }
 
 export function removeFromPalette(palette, colorName) {
-  // Your code here
+  if(!palette || !Array.isArray(palette) || !palette.length)
+  {
+    return [];
+  }
+
+  return palette.filter(el=>el.name!==colorName);
 }
 
 export function mergePalettes(palette1, palette2) {
-  // Your code here
+  let cpalette1;
+  let cpalette2;
+  if(!palette1 || !Array.isArray(palette1))
+  {
+    cpalette1=[];
+  }else{
+    cpalette1 = structuredClone(palette1);
+  }
+  if(!palette2 || !Array.isArray(palette2))
+  {
+    cpalette2=[];
+  }else{
+    cpalette2  = structuredClone(palette2);
+  }
+
+  cpalette2 = cpalette2.filter(el=>( ! cpalette1.find(item => item.name === el.name) ));
+
+  return [...cpalette1,...cpalette2];
+  
 }

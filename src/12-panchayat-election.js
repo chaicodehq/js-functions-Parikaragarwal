@@ -64,17 +64,134 @@
  *   // => "voted!"
  */
 export function createElection(candidates) {
-  // Your code here
+
+  candidates.forEach(candidate => {
+    candidate['votes']=0;
+  });
+
+  const registered = new Set();
+  const voted = new Set();
+
+  function  registerVoter(voter){
+
+    //create a validator instead from the function instead of making it manual
+
+    const validator = createVoteValidator({ minAge: 18, requiredFields: ["id", "name", "age"] });
+
+    //find if voter already exists
+    let existingVoter=null;
+     for(let el of registered)
+     {
+      if(el.id===voter.id)
+      {
+        existingVoter = el;
+        break;
+      }
+     }
+
+    //if already registered or isInvalid return false
+    if(existingVoter || ! ((validator(voter)).valid))
+    {
+      return false;
+    }
+
+    //add to registered and return true
+    registered.add(voter);
+    return true;
+  }
+
+  function castVote(voterId, candidateId, onSuccess, onError){
+     let voter=null;
+     for(let el of registered)
+     {
+      if(el.id===voterId)
+      {
+        voter = el;
+        break;
+      }
+     }
+     let candidate=candidates.find((el=>el.id===candidateId));
+     if(!voted.has(voterId) && voter && candidate)
+     {
+      voted.add(voterId);
+      candidate.votes++;
+      return onSuccess({voterId,candidateId});
+     }else{
+      if(voted.has(voterId))
+      {
+        return onError("Voter has already voted");
+      }
+      else if(!voter && !candidate)
+      {
+        return onError('neither candidate nor voter');
+      }else if(!voter)
+      {
+        return onError('no such voter');
+      }else{
+        return onError('no such candidate');
+     }
+  }
+
+
+  }
+
+  function getResults(sortFn){
+    if(sortFn)
+    {
+      return [...candidates].sort(sortFn);
+    }else{
+      return [...candidates].sort((a,b)=>(b.votes-a.votes));
+    }
+  }
+
+  function getWinner(){
+    const winner = candidates.reduce((maxel,el)=>el.votes>maxel.votes?el:maxel,candidates[0]);
+    if(winner.votes>0){
+      return winner;
+    }else{
+      return null;
+    }
+  }
+
+  return {
+    registerVoter,
+    castVote,
+    getResults,
+    getWinner
+  }
 }
 
 export function createVoteValidator(rules) {
-  // Your code here
+  return (voter)=>{
+    if(!voter || typeof(voter)!=='object')
+    {
+      return {valid:false,reason:"invalid voter object"};
+    }
+    const hasAllProperties = rules.requiredFields.every(el=>voter.hasOwnProperty(el));
+    const valid = voter.age>=rules.minAge && hasAllProperties;
+    const reason = voter.age<rules.minAge?"underage":'missing property';
+    return {valid,reason};
+  }
 }
 
 export function countVotesInRegions(regionTree) {
-  // Your code here
+  if(!regionTree || typeof regionTree!=='object')
+  {
+    return 0;
+  }
+  let sum =regionTree.votes;
+
+  regionTree.subRegions.forEach(tree=>(sum+=countVotesInRegions(tree)));
+  return sum;
 }
 
 export function tallyPure(currentTally, candidateId) {
-  // Your code here
+  const tally = structuredClone(currentTally);
+  if(!tally.hasOwnProperty(candidateId))
+  {
+    tally[candidateId]=1;
+  }else{
+    tally[candidateId]++;
+  }
+  return tally;
 }

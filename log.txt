@@ -1,0 +1,385 @@
+
+> js-functions-lab@1.0.0 test
+> NODE_OPTIONS=--experimental-vm-modules jest
+
+(node:3680387) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/12-panchayat-election.spec.js
+  12 - Panchayat Election System: Capstone (9 pts)
+    createElection
+      registerVoter
+        ✓ registers a valid voter and returns true (4 ms)
+        ✓ returns false for voter under 18 (1 ms)
+        ✓ returns false for duplicate voter id (1 ms)
+        ✓ returns false for invalid voter object (1 ms)
+      castVote
+        ✓ calls onSuccess callback for valid vote (1 ms)
+        ✓ calls onError for unregistered voter (1 ms)
+        ✓ calls onError for invalid candidate (1 ms)
+        ✓ calls onError for double voting (1 ms)
+        ✓ returns the callback return value (1 ms)
+      getResults
+        ✓ returns array with vote counts (1 ms)
+        ✓ sorts by custom sortFn when provided (21 ms)
+        ✓ default sort is by votes descending (1 ms)
+      getWinner
+        ✓ returns candidate with most votes (1 ms)
+        ✓ returns null if no votes cast (1 ms)
+    createVoteValidator
+      ✓ returns a function
+      ✓ validates a valid voter returns { valid: true } (1 ms)
+      ✓ rejects voter under minAge (1 ms)
+      ✓ rejects voter missing required fields
+    countVotesInRegions
+      ✓ counts votes in flat region (1 ms)
+      ✓ counts votes with one level of subRegions
+      ✓ counts votes in deeply nested regions
+      ✓ returns 0 for null input
+      ✓ returns 0 for undefined input (1 ms)
+    tallyPure
+      ✓ returns NEW object (original unchanged) (2 ms)
+      ✓ increments existing candidate count (1 ms)
+      ✓ adds new candidate with count 1
+      ✓ works with empty tally (1 ms)
+
+PASS tests/03-tiffin-service.spec.js
+  03 - Tiffin Service: Plan Builder (8 pts)
+    createTiffinPlan
+      ✓ defaults: { name: "Rahul" } => mealType "veg", days 30, dailyRate 80, totalCost 2400 (6 ms)
+      ✓ nonveg plan: { name: "Amit", mealType: "nonveg", days: 15 } => dailyRate 120, totalCost 1800 (2 ms)
+      ✓ jain plan: dailyRate is 90 (1 ms)
+      ✓ veg plan with custom days
+      ✓ unknown mealType returns null
+      ✓ missing name returns null
+      ✓ empty name returns null
+      ✓ no arguments uses defaults from destructuring
+    combinePlans
+      ✓ combines two plans correctly (1 ms)
+      ✓ mealBreakdown counts mealTypes (1 ms)
+      ✓ three plans: totalCustomers is 3 (1 ms)
+      ✓ no plans returns null
+      ✓ single plan works correctly (1 ms)
+    applyAddons
+      ✓ adds raita addon: dailyRate increased by 15, totalCost recalculated (1 ms)
+      ✓ multiple addons increase dailyRate cumulatively (1 ms)
+      ✓ returns NEW object — original plan unchanged (1 ms)
+      ✓ result includes addonNames array (1 ms)
+      ✓ null plan returns null
+      ✓ no addons returns copy of plan with empty addonNames
+
+PASS tests/08-dhaba-rating.spec.js
+  08 - Highway Dhaba Rating System: Higher-Order Functions (8 pts)
+    createFilter
+      ✓ returns a function (5 ms)
+      ✓ filters by rating >= 4 (3 ms)
+      ✓ filters by city === "Delhi" (2 ms)
+      ✓ filters by price < 200 (2 ms)
+      ✓ filters by rating > 4 (1 ms)
+      ✓ filters by price <= 150 (1 ms)
+      ✓ unknown operator returns function that always returns false
+    createSorter
+      ✓ returns a function
+      ✓ sorts by rating descending (1 ms)
+      ✓ sorts by name ascending (alphabetical) (1 ms)
+      ✓ sorts by price ascending by default (1 ms)
+    createMapper
+      ✓ returns a function
+      ✓ picks only specified fields ["name", "rating"] (4 ms)
+      ✓ picks single field ["name"] (1 ms)
+    applyOperations
+      ✓ chains filter then sort then map operations (2 ms)
+      ✓ returns [] when data is not an array (1 ms)
+      ✓ returns data as-is when no operations provided (1 ms)
+      ✓ applies a single operation correctly (1 ms)
+
+PASS tests/05-dabbawala-tracker.spec.js
+  05 - Dabbawala Tracker: Closures (8 pts)
+    addDelivery
+      ✓ returns auto-incremented id starting from 1 (3 ms)
+      ✓ second delivery returns id 2 (1 ms)
+      ✓ third delivery returns id 3 (1 ms)
+      ✓ empty from returns -1 (1 ms)
+      ✓ empty to returns -1 (1 ms)
+      ✓ missing from returns -1 (1 ms)
+      ✓ missing to returns -1
+    completeDelivery
+      ✓ returns true for valid pending delivery (1 ms)
+      ✓ returns false for invalid id
+      ✓ returns false for already completed delivery (1 ms)
+    getActiveDeliveries
+      ✓ returns only pending deliveries (1 ms)
+      ✓ returns empty array when all completed (1 ms)
+      ✓ returns empty array when no deliveries
+    getStats
+      ✓ correct counts after mixed operations (1 ms)
+      ✓ successRate formatted as "XX.XX%"
+      ✓ successRate is "0.00%" when no deliveries
+      ✓ successRate is "100.00%" when all completed
+    reset
+      ✓ clears all deliveries (1 ms)
+      ✓ ids restart from 1 after reset
+      ✓ reset returns true
+    Closure test: private state
+      ✓ deliveries property is not accessible on the object
+      ✓ nextId is not accessible on the object
+    Independence test: two instances do not share state
+      ✓ separate dabbawalas have independent deliveries
+      ✓ separate dabbawalas have independent id counters (1 ms)
+
+PASS tests/02-cricket-stats.spec.js
+  02 - Cricket Stats Dashboard (7 pts)
+    calcStrikeRate
+      ✓ (45, 30) => 150 (4 ms)
+      ✓ (100, 60) => 166.67 (1 ms)
+      ✓ balls = 0 returns 0 (1 ms)
+      ✓ balls < 0 returns 0 (1 ms)
+      ✓ runs < 0 returns 0 (1 ms)
+    calcEconomy
+      ✓ (24, 4) => 6 (1 ms)
+      ✓ (36, 4) => 9
+      ✓ overs = 0 returns 0
+      ✓ overs < 0 returns 0
+      ✓ runsConceded < 0 returns 0 (1 ms)
+    calcBattingAvg
+      ✓ (2000, 80, 10) => 28.57 (1 ms)
+      ✓ default notOuts is 0: (1500, 50) => 30 (1 ms)
+      ✓ innings equal to notOuts returns 0
+      ✓ innings less than notOuts returns 0
+    isAllRounder
+      ✓ (35, 7) => true (avg > 30 and eco < 8) (1 ms)
+      ✓ (25, 7) => false (avg too low)
+      ✓ (35, 9) => false (economy too high)
+      ✓ (30, 8) => false (boundary values not included) (1 ms)
+    getPlayerCard
+      ✓ returns summary object with all stats (3 ms)
+      ✓ null player returns null
+      ✓ undefined player returns null
+      ✓ player missing name returns null (1 ms)
+    Exports are arrow functions
+      ✓ calcStrikeRate is a function
+      ✓ calcEconomy is a function
+      ✓ calcBattingAvg is a function (1 ms)
+      ✓ isAllRounder is a function
+      ✓ getPlayerCard is a function (1 ms)
+
+PASS tests/07-mehndi-pattern.spec.js
+  07 - Mehndi Pattern Maker: Recursion (9 pts)
+    repeatChar
+      ✓ repeats "*" 4 times to produce "****" (4 ms)
+      ✓ repeats "a" 0 times to produce ""
+      ✓ repeats "ab" 3 times to produce "ababab"
+      ✓ returns "" when char is not a string (1 ms)
+      ✓ returns "" when n is negative
+    sumNestedArray
+      ✓ sums [1, [2, [3, 4]], 5] to 15 (1 ms)
+      ✓ returns 0 for empty array (1 ms)
+      ✓ skips non-number values: [1, "two", [3]] => 4 (1 ms)
+      ✓ returns 0 when input is not an array (1 ms)
+      ✓ handles deeply nested arrays (1 ms)
+    flattenArray
+      ✓ flattens [1, [2, [3, 4]], 5] to [1, 2, 3, 4, 5] (2 ms)
+      ✓ returns [] for empty array
+      ✓ returns [] when input is not an array (1 ms)
+      ✓ handles already flat arrays (1 ms)
+      ✓ handles deeply nested arrays (1 ms)
+    isPalindrome
+      ✓ "madam" is a palindrome
+      ✓ "racecar" is a palindrome
+      ✓ "Madam" is a palindrome (case insensitive) (1 ms)
+      ✓ "hello" is not a palindrome (1 ms)
+      ✓ empty string is a palindrome
+      ✓ returns false for non-string input (1 ms)
+      ✓ single character is a palindrome
+    generatePattern
+      ✓ n=1 produces ["*"] (1 ms)
+      ✓ n=2 produces ["*", "**", "*"] (1 ms)
+      ✓ n=3 produces ["*", "**", "***", "**", "*"] (1 ms)
+      ✓ n=0 produces []
+      ✓ negative n produces []
+      ✓ non-positive-integer n produces [] (1 ms)
+
+PASS tests/10-masala-blender.spec.js
+  10 - Masala Spice Blender: Function Composition (9 pts)
+    grind
+      ✓ adds form: "powder" to spice (3 ms)
+      ✓ preserves existing properties (1 ms)
+    roast
+      ✓ adds roasted: true and aroma: "strong" to spice (1 ms)
+    mix
+      ✓ adds mixed: true to spice
+    pack
+      ✓ adds packed: true and label: "name Masala" to spice
+      ✓ label uses spice name (1 ms)
+    pipe
+      ✓ applies functions left to right (1 ms)
+      ✓ pipe(grind, roast, pack) applies all three in order (1 ms)
+      ✓ pipe() with no functions returns identity
+      ✓ pipe with simple number functions: pipe(x=>x+1, x=>x*2)(3) = 8
+      ✓ pipe with single function applies just that function
+    compose
+      ✓ applies functions right to left: compose(grind, roast) roasts first then grinds (1 ms)
+      ✓ compose() with no functions returns identity
+      ✓ compose with simple number functions: compose(x=>x+1, x=>x*2)(3) = 7 (1 ms)
+      ✓ compose reverses the order of pipe
+    createRecipe
+      ✓ creates pipeline from step names ["grind", "roast", "pack"] (1 ms)
+      ✓ skips unknown step names (1 ms)
+      ✓ empty steps array returns identity function
+      ✓ non-array input returns identity function
+      ✓ null input returns identity function
+
+PASS tests/11-festival-planner.spec.js
+  11 - Festival Countdown Planner: Module Pattern (9 pts)
+    addFestival
+      ✓ adds a festival and returns new count (3 ms)
+      ✓ adds multiple festivals with correct counts (1 ms)
+      ✓ returns -1 for duplicate name (1 ms)
+      ✓ returns -1 for empty name (1 ms)
+      ✓ returns -1 for invalid type
+      ✓ accepts all valid types: religious, national, cultural (1 ms)
+    removeFestival
+      ✓ returns true when festival is removed (1 ms)
+      ✓ returns false when festival is not found
+      ✓ after remove, getCount decreases
+    getAll
+      ✓ returns all festivals (2 ms)
+      ✓ returns a COPY - modifying returned array does not affect manager (1 ms)
+    getByType
+      ✓ filters festivals by type (1 ms)
+      ✓ returns empty array when no match
+    getUpcoming
+      ✓ returns next n festivals after given date, sorted by date (1 ms)
+      ✓ defaults to n=3 (1 ms)
+      ✓ returns fewer if not enough upcoming festivals (1 ms)
+    getCount
+      ✓ returns correct count (1 ms)
+    Encapsulation
+      ✓ manager.festivals is undefined (private state) (1 ms)
+    Independence
+      ✓ two managers do not share state (2 ms)
+
+PASS tests/01-dosa-counter.spec.js
+  01 - Dosa Counter: Order Calculator (7 pts)
+    Basic orders with correct prices
+      ✓ plain dosa costs Rs 40 (3 ms)
+      ✓ masala dosa costs Rs 60 (1 ms)
+      ✓ onion dosa costs Rs 50 (2 ms)
+      ✓ butter dosa costs Rs 70 (1 ms)
+      ✓ paper dosa costs Rs 90 (1 ms)
+      ✓ cheese dosa costs Rs 80 (1 ms)
+    Default parameters
+      ✓ quantity defaults to 1 when not provided
+      ✓ isSpicy defaults to false when not provided
+      ✓ plain dosa with defaults returns correct full object (2 ms)
+    Spicy modifier adds Rs 10 per dosa
+      ✓ spicy plain dosa costs Rs 50 per dosa (1 ms)
+      ✓ spicy masala dosa costs Rs 70 per dosa
+      ✓ non-spicy dosa does not add extra Rs 10 (1 ms)
+    Multiple quantities calculated correctly
+      ✓ 3 masala dosas total Rs 180
+      ✓ 2 spicy masala dosas: pricePerDosa=70, total=140 (1 ms)
+      ✓ 5 cheese dosas total Rs 400
+    Return object shape
+      ✓ returned object has exactly type, quantity, pricePerDosa, total (1 ms)
+    Validation returns null
+      ✓ unknown dosa type returns null
+      ✓ quantity <= 0 returns null
+      ✓ non-string type returns null (1 ms)
+      ✓ null type returns null
+      ✓ undefined type returns null
+
+PASS tests/06-shaadi-rsvp.spec.js
+  06 - Shaadi RSVP Manager: Callbacks (9 pts)
+    processGuests
+      ✓ filters guests using callback correctly (3 ms)
+      ✓ filters by rsvp status (1 ms)
+      ✓ returns empty array when no matches (1 ms)
+      ✓ non-array guests returns [] (1 ms)
+      ✓ non-function filterFn returns [] (1 ms)
+      ✓ callback is actually called for each guest (1 ms)
+    notifyGuests
+      ✓ collects callback return values into array
+      ✓ returns correct number of results
+      ✓ non-array guests returns [] (1 ms)
+      ✓ non-function callback returns [] (1 ms)
+      ✓ callback is called for each guest
+    handleRSVP
+      ✓ calls onAccept when rsvp is "yes"
+      ✓ calls onDecline when rsvp is "no"
+      ✓ returns null for other rsvp values
+      ✓ null guest returns null
+      ✓ undefined guest returns null
+      ✓ non-function callbacks return null (1 ms)
+      ✓ onAccept is actually called (tracked) (1 ms)
+      ✓ onDecline is actually called (tracked)
+    transformGuestList
+      ✓ applies single transform function (1 ms)
+      ✓ applies multiple transforms in left-to-right order (1 ms)
+      ✓ filter then map — applied in order
+      ✓ no transform functions returns original array (1 ms)
+      ✓ non-array guests returns []
+      ✓ empty guests array works correctly
+
+PASS tests/09-holi-colors.spec.js
+  09 - Holi Color Mixer: Pure Functions (9 pts)
+    mixColors
+      ✓ mixes red and blue to produce { name: "red-blue", r: 128, g: 0, b: 128 } (3 ms)
+      ✓ mixes red and green correctly
+      ✓ does NOT mutate original color1 or color2 (1 ms)
+      ✓ returns null when either input is null (1 ms)
+      ✓ returns null when either input is undefined (1 ms)
+    adjustBrightness
+      ✓ doubles brightness: {r:100,g:100,b:100} factor 2 => {r:200,g:200,b:200} (1 ms)
+      ✓ clamps at 255: {r:200,...} factor 2 => r capped at 255 (1 ms)
+      ✓ clamps at 0: factor 0 makes all zeros (1 ms)
+      ✓ does NOT mutate the original color
+      ✓ preserves name after adjustment
+      ✓ returns null when color is null or factor is not a number
+    addToPalette
+      ✓ adds color to end of a new array
+      ✓ does NOT mutate the original palette array
+      ✓ returns [color] when palette is not an array (1 ms)
+      ✓ returns copy of palette when color is null/invalid (1 ms)
+    removeFromPalette
+      ✓ removes color by name and returns new array
+      ✓ does NOT mutate the original palette
+      ✓ returns copy when name is not found (1 ms)
+      ✓ returns [] when palette is not an array (1 ms)
+    mergePalettes
+      ✓ merges two palettes with no duplicate names (1 ms)
+      ✓ does NOT mutate either original palette (1 ms)
+      ✓ treats non-array input as empty array (1 ms)
+      ✓ both non-array inputs returns empty array (1 ms)
+
+PASS tests/04-bollywood-director.spec.js
+  04 - Bollywood Director: Factory Functions (8 pts)
+    createDialogueWriter
+      ✓ returns a function for valid genre (2 ms)
+      ✓ action writer: ("SRK", "Raees") => correct template
+      ✓ romance writer: correct template (1 ms)
+      ✓ comedy writer: correct template
+      ✓ drama writer: correct template (1 ms)
+      ✓ unknown genre returns null (not a function) (1 ms)
+      ✓ empty hero or villain returns "..."
+      ✓ missing hero or villain returns "..." (1 ms)
+    createTicketPricer
+      ✓ returns a function for valid basePrice (1 ms)
+      ✓ basePrice=200: silver => 200 (1 ms)
+      ✓ basePrice=200: gold => 300 (1 ms)
+      ✓ basePrice=200: platinum => 400
+      ✓ weekend multiplier: gold + weekend => 390
+      ✓ weekend multiplier: silver + weekend => 260
+      ✓ unknown seatType returns null from returned function (1 ms)
+      ✓ negative basePrice returns null (not a function)
+      ✓ zero basePrice returns null (1 ms)
+    createRatingCalculator
+      ✓ returns a function for valid weights
+      ✓ calculates weighted average correctly (1 ms)
+      ✓ rounds to 1 decimal place
+      ✓ invalid weights (not an object) returns null (1 ms)
+
+Test Suites: 12 passed, 12 total
+Tests:       272 passed, 272 total
+Snapshots:   0 total
+Time:        2.439 s
+Ran all test suites.

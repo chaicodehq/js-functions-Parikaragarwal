@@ -53,21 +53,85 @@
  *   generatePattern(3)        // => ["*", "**", "***", "**", "*"]
  */
 export function repeatChar(char, n) {
-  // Your code here
+  if(!char || typeof(char)!=='string' )
+  {
+    return "";
+  }
+  if(n<=0)
+  {
+    return "";
+  }
+  return char+repeatChar(char,n-1);
 }
 
 export function sumNestedArray(arr) {
-  // Your code here
+  if(!Array.isArray(arr))
+  {
+    return 0;
+  }
+  if(arr.length===0)
+  {
+    return 0;
+  }
+  let sum=0; 
+  if(typeof(arr[0])==='number')
+  {
+    sum= arr[0];
+  }else if(Array.isArray(arr[0]))
+  {
+    sum= sumNestedArray(arr[0])
+  }else{
+    sum= 0;
+  }
+
+  sum+=sumNestedArray(arr.slice(1,arr.length));
+  return sum;
 }
 
 export function flattenArray(arr) {
-  // Your code here
+  let ansarr=[];
+  if(!Array.isArray(arr) || arr.length===0)
+  {
+    return ansarr;
+  }
+  if(typeof(arr[0])==='number' || typeof(arr[0])==='string' || typeof(arr[0])==='boolean')
+  {
+    ansarr.push(arr[0]);
+    
+  }else if(Array.isArray(arr[0]))
+  {
+    ansarr = ansarr.concat(flattenArray(arr[0]));
+    
+  }
+  ansarr=ansarr.concat(flattenArray(arr.slice(1,arr.length)));
+  return ansarr;
 }
 
 export function isPalindrome(str) {
-  // Your code here
+  if(typeof(str)!=='string')
+  {
+    return false;
+  }
+  if(str.length<=1)
+  {
+    return true;
+  }
+  return str[0].toLowerCase()===str[str.length-1].toLowerCase() && isPalindrome(str.slice(1,str.length-1));
 }
 
-export function generatePattern(n) {
-  // Your code here
+export function generatePattern(n,ansarr=[]) {
+  if(!typeof(n)==='number' || !Number.isInteger(n) || n<=0)
+  {
+    return ansarr;
+  }
+  if(ansarr.length===0)
+  {
+    ansarr.push('*'.repeat(n));
+   return generatePattern(n-1,ansarr);
+  }else{
+    const line = '*'.repeat(n);
+    ansarr.push(line);
+    ansarr.unshift(line);
+   return generatePattern(n-1,ansarr);
+  }
 }
